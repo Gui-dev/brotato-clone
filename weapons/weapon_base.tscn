@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://lwrkymuustjl"]
+
+[ext_resource type="Texture2D" uid="uid://l3ay6rcwpx3u" path="res://assets/kenney_scribble-dungeons/Tilesheet/tilesheet.png" id="1_diy42"]
+
+[node name="weapon_base" type="Node2D"]
+
+[node name="sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_diy42")
+region_enabled = true
+
+[node name="sprite_arm_1" type="Sprite2D" parent="."]
+texture = ExtResource("1_diy42")
+region_enabled = true
+
+[node name="sprite_arm_2" type="Sprite2D" parent="."]
+texture = ExtResource("1_diy42")
+region_enabled = true
+
+[node name="animation_player" type="AnimationPlayer" parent="."]
+
+[node name="attack_area" type="Area2D" parent="."]
+
+[node name="detection_area" type="Area2D" parent="."]
