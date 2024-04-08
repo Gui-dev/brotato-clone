@@ -6,6 +6,10 @@ class_name Player
 @export var _move_speed: float = 256.0
 
 
+func _ready() -> void:
+  GlobalBase.player = self 
+
+
 func _physics_process(delta: float) -> void:
   _move()
   

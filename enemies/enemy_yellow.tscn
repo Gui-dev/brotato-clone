@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d03ic0juy46dk"]
+
+[ext_resource type="PackedScene" uid="uid://ccw724kiqfixd" path="res://enemies/enemy_base.tscn" id="1_dsvls"]
+
+[node name="enemy_yellow" instance=ExtResource("1_dsvls")]
+
+[node name="sprite" parent="." index="0"]
+region_rect = Rect2(256, 512, 64, 64)

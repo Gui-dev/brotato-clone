@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw84q3djwpdh2"]
+
+[ext_resource type="PackedScene" uid="uid://ccw724kiqfixd" path="res://enemies/enemy_base.tscn" id="1_1okmw"]
+
+[node name="enemy_green" instance=ExtResource("1_1okmw")]
+_move_speed = 176.0
+
+[node name="sprite" parent="." index="0"]
+region_rect = Rect2(384, 512, 64, 64)

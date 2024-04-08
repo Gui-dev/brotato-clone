@@ -9,6 +9,7 @@ radius = 21.587
 [node name="player" type="CharacterBody2D"]
 collision_mask = 2
 script = ExtResource("1_5yvxm")
+_move_speed = 312.0
 
 [node name="collision" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_q7y3g")

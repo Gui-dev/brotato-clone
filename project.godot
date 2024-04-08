@@ -13,6 +13,10 @@ config_version=5
 config/name="Brotato Clone"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 
+[autoload]
+
+GlobalBase="*res://scripts/global.gd"
+
 [display]
 
 window/size/viewport_width=1280
@@ -50,6 +54,7 @@ move_down={
 
 2d_physics/layer_1="player"
 2d_physics/layer_2="word"
+2d_physics/layer_3="enemy"
 
 [rendering]
 
