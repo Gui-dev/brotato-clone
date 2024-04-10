@@ -4,6 +4,9 @@
 
 [node name="enemy_green" instance=ExtResource("1_1okmw")]
 _move_speed = 176.0
+_invincibility_cooldown = 1.5
+_damage = 2
+_health = 15
 
 [node name="sprite" parent="." index="0"]
 region_rect = Rect2(384, 512, 64, 64)

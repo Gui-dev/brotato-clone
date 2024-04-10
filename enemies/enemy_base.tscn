@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://ccw724kiqfixd"]
+[gd_scene load_steps=6 format=3 uid="uid://ccw724kiqfixd"]
 
 [ext_resource type="Texture2D" uid="uid://l3ay6rcwpx3u" path="res://assets/kenney_scribble-dungeons/Tilesheet/tilesheet.png" id="1_e5pmj"]
 [ext_resource type="Script" path="res://scripts/enemy_base.gd" id="1_xtklh"]
@@ -9,12 +9,17 @@ radius = 24.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_d3748"]
 radius = 96.0
 
-[node name="enemy_base" type="CharacterBody2D" node_paths=PackedStringArray("_dash_wait_time", "_dash_timer")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_xmeep"]
+radius = 16.0
+
+[node name="enemy_base" type="CharacterBody2D" node_paths=PackedStringArray("_dash_wait_time", "_dash_timer", "_hitbox_area", "_invincibility_timer")]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_xtklh")
 _dash_wait_time = NodePath("dash_wait_time")
 _dash_timer = NodePath("dash_timer")
+_hitbox_area = NodePath("hitbox_area")
+_invincibility_timer = NodePath("hitbox_area/invincibility_timer")
 
 [node name="sprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_e5pmj")
@@ -35,6 +40,17 @@ one_shot = true
 wait_time = 0.4
 one_shot = true
 
+[node name="hitbox_area" type="Area2D" parent="."]
+
+[node name="collision" type="CollisionShape2D" parent="hitbox_area"]
+shape = SubResource("CircleShape2D_xmeep")
+
+[node name="invincibility_timer" type="Timer" parent="hitbox_area"]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="body_entered" from="range_area" to="." method="_on_range_area_body_entered"]
 [connection signal="timeout" from="dash_wait_time" to="." method="_on_dash_wait_time_timeout"]
 [connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
+[connection signal="body_entered" from="hitbox_area" to="." method="_on_hitbox_area_body_entered"]
+[connection signal="timeout" from="hitbox_area/invincibility_timer" to="." method="_on_invincibility_timer_timeout"]

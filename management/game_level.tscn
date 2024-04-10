@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dw4pc2g8v7xk1"]
+[gd_scene load_steps=6 format=3 uid="uid://dw4pc2g8v7xk1"]
 
 [ext_resource type="PackedScene" uid="uid://c8r8va2mytnua" path="res://terrains/level_01.tscn" id="1_g0h2j"]
 [ext_resource type="PackedScene" uid="uid://tyutrvq7u0p1" path="res://player/player.tscn" id="2_cxfne"]
 [ext_resource type="PackedScene" uid="uid://bxwhedvng77wy" path="res://enemies/enemy_purple.tscn" id="3_fupru"]
+[ext_resource type="PackedScene" uid="uid://d03ic0juy46dk" path="res://enemies/enemy_yellow.tscn" id="4_fokyg"]
+[ext_resource type="PackedScene" uid="uid://dw84q3djwpdh2" path="res://enemies/enemy_green.tscn" id="5_oaj2f"]
 
 [node name="game_level" type="Node2D"]
 
@@ -16,8 +18,8 @@ position = Vector2(946, 543)
 [node name="enemy_purple" parent="enemies" instance=ExtResource("3_fupru")]
 position = Vector2(687, 432)
 
-[node name="enemy_purple2" parent="enemies" instance=ExtResource("3_fupru")]
-position = Vector2(678, 668)
+[node name="enemy_yellow" parent="enemies" instance=ExtResource("4_fokyg")]
+position = Vector2(711, 703)
 
-[node name="enemy_purple3" parent="enemies" instance=ExtResource("3_fupru")]
-position = Vector2(1211, 421)
+[node name="enemy_green" parent="enemies" instance=ExtResource("5_oaj2f")]
+position = Vector2(1229, 761)

@@ -71,6 +71,8 @@ size = Vector2(16, 30)
 radius = 41.2311
 
 [node name="short_sword" instance=ExtResource("1_4udax")]
+_attack_damage = 5
+_attack_cooldown = 0.6
 
 [node name="sprite" parent="." index="0"]
 offset = Vector2(0, -20)

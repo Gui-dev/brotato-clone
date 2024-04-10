@@ -11,9 +11,14 @@ var _previous_character_position: Vector2
 @export var _dash_speed: float = 768
 @export var _dash_wait_time: Timer
 @export var _dash_timer: Timer
+@export var _hitbox_area: Area2D
+@export var _invincibility_timer: Timer
+@export var _invincibility_cooldown: float = 0.5
+@export var _damage: int = 3
+@export var _health: int = 12
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
   if _loading_dash:
     return
   
@@ -45,8 +50,16 @@ func _chase_and_dash(direction: Vector2) -> void:
     velocity = direction * _move_speed
   
   if _is_dashing:
+    direction = global_position.direction_to(_previous_character_position)
     velocity = direction * _dash_speed
 
+
+func update_health(damage: int) -> void:
+  _health -= damage
+  
+  if _health <= 0:
+    queue_free()
+  
 
 func _on_range_area_body_entered(body: Player) -> void:
   if _enemy_type != "chase_and_dash":
@@ -69,3 +82,14 @@ func _on_dash_wait_time_timeout():
 
 func _on_dash_timer_timeout():
   _is_dashing = false
+
+
+func _on_hitbox_area_body_entered(body: Player) -> void:
+  if body is Player:
+    _hitbox_area.set_deferred("monitoring", false)
+    _invincibility_timer.start(_invincibility_cooldown)
+    body.update_health("damage", _damage)
+
+
+func _on_invincibility_timer_timeout() -> void:
+  _hitbox_area.set_deferred("monitoring", true)

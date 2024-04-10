@@ -5,6 +5,9 @@
 [node name="enemy_purple" instance=ExtResource("1_kiyig")]
 _enemy_type = "chase_and_dash"
 _move_speed = 224.0
+_invincibility_cooldown = 1.25
+_damage = 9
+_health = 45
 
 [node name="sprite" parent="." index="0"]
 region_rect = Rect2(128, 512, 64, 64)
