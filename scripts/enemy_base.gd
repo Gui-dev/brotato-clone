@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name EnemyBase
 
 
+const _EXPLOSION: PackedScene = preload("res://effects/particles/explosion.tscn")
 var _loading_dash: bool = false
 var _is_dashing: bool = false
 var _previous_character_position: Vector2
@@ -9,13 +10,16 @@ var _previous_character_position: Vector2
 @export var _enemy_type: String = "chase"
 @export var _move_speed: float = 192.0
 @export var _dash_speed: float = 768
-@export var _dash_wait_time: Timer
-@export var _dash_timer: Timer
-@export var _hitbox_area: Area2D
-@export var _invincibility_timer: Timer
 @export var _invincibility_cooldown: float = 0.5
 @export var _damage: int = 3
 @export var _health: int = 12
+
+@export_category("objects")
+@export var _hitbox_area: Area2D
+@export var _dash_wait_time: Timer
+@export var _dash_timer: Timer
+@export var _invincibility_timer: Timer
+@export var _animation_hit: AnimationPlayer
 
 
 func _physics_process(_delta: float) -> void:
@@ -58,7 +62,20 @@ func update_health(damage: int) -> void:
   _health -= damage
   
   if _health <= 0:
+    get_tree().call_group("camera_player", "shake", 10.0, 0.35)
+    _spawn_explosion_particles()
     queue_free()
+    return
+  
+  get_tree().call_group("camera_player", "shake", 5.0, 0.25)
+  _animation_hit.play("hit")
+  
+
+func _spawn_explosion_particles() -> void:
+  var _particles: CPUParticles2D = _EXPLOSION.instantiate()
+  _particles.global_position = global_position
+  _particles.emitting = true
+  get_tree().root.call_deferred("add_child", _particles)
   
 
 func _on_range_area_body_entered(body: Player) -> void:

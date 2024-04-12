@@ -1,16 +1,180 @@
-[gd_scene load_steps=5 format=3 uid="uid://tyutrvq7u0p1"]
+[gd_scene load_steps=16 format=3 uid="uid://tyutrvq7u0p1"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_5yvxm"]
 [ext_resource type="Texture2D" uid="uid://l3ay6rcwpx3u" path="res://assets/kenney_scribble-dungeons/Tilesheet/tilesheet.png" id="1_g1eka"]
+[ext_resource type="Script" path="res://scripts/camera_player.gd" id="3_7e75q"]
 [ext_resource type="PackedScene" uid="uid://deve0rc8p1wav" path="res://weapons/swords/short_sword.tscn" id="3_axk8i"]
+[ext_resource type="PackedScene" uid="uid://dep7o875uvsi6" path="res://effects/particles/dust.tscn" id="4_v2k5d"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q7y3g"]
 radius = 21.587
 
-[node name="player" type="CharacterBody2D"]
+[sub_resource type="Animation" id="Animation_ng58o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lwdvc"]
+resource_name = "scale"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vc73p"]
+_data = {
+"RESET": SubResource("Animation_ng58o"),
+"scale": SubResource("Animation_lwdvc")
+}
+
+[sub_resource type="Animation" id="Animation_8fplx"]
+resource_name = "position"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-96, 0), Vector2(-60, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1)]
+}
+
+[sub_resource type="Animation" id="Animation_4nboh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-96, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kgs7l"]
+_data = {
+"RESET": SubResource("Animation_4nboh"),
+"position": SubResource("Animation_8fplx")
+}
+
+[sub_resource type="Animation" id="Animation_a2pdb"]
+resource_name = "position"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(64, -64), Vector2(32, -32)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1)]
+}
+
+[sub_resource type="Animation" id="Animation_ec6ag"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(64, -64)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lgb7w"]
+_data = {
+"RESET": SubResource("Animation_ec6ag"),
+"position": SubResource("Animation_a2pdb")
+}
+
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("_dust")]
 collision_mask = 2
 script = ExtResource("1_5yvxm")
 _move_speed = 312.0
+_dust = NodePath("dust")
 
 [node name="collision" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_q7y3g")
@@ -20,12 +184,19 @@ texture = ExtResource("1_g1eka")
 region_enabled = true
 region_rect = Rect2(0, 512, 64, 64)
 
-[node name="camera" type="Camera2D" parent="."]
+[node name="animation_player" type="AnimationPlayer" parent="sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_vc73p")
+}
+autoplay = "scale"
+
+[node name="camera" type="Camera2D" parent="." groups=["camera_player"]]
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
+script = ExtResource("3_7e75q")
 
 [node name="weapons_manager" type="Node2D" parent="."]
 
@@ -33,6 +204,12 @@ editor_draw_drag_margin = true
 position = Vector2(-96, 0)
 
 [node name="short_sword" parent="weapons_manager/weapon_1" instance=ExtResource("3_axk8i")]
+
+[node name="animation_player" type="AnimationPlayer" parent="weapons_manager/weapon_1"]
+libraries = {
+"": SubResource("AnimationLibrary_kgs7l")
+}
+autoplay = "position"
 
 [node name="weapon_2" type="Marker2D" parent="weapons_manager"]
 position = Vector2(-64, -64)
@@ -42,6 +219,12 @@ position = Vector2(64, -64)
 
 [node name="short_sword" parent="weapons_manager/weapon_3" instance=ExtResource("3_axk8i")]
 
+[node name="animation_player" type="AnimationPlayer" parent="weapons_manager/weapon_3"]
+libraries = {
+"": SubResource("AnimationLibrary_lgb7w")
+}
+autoplay = "position"
+
 [node name="weapon_4" type="Marker2D" parent="weapons_manager"]
 position = Vector2(96, 0)
 
@@ -50,3 +233,6 @@ position = Vector2(64, 64)
 
 [node name="weapon_6" type="Marker2D" parent="weapons_manager"]
 position = Vector2(-64, 64)
+
+[node name="dust" parent="." instance=ExtResource("4_v2k5d")]
+show_behind_parent = true

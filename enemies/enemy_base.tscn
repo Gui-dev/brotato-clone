@@ -1,7 +1,88 @@
-[gd_scene load_steps=6 format=3 uid="uid://ccw724kiqfixd"]
+[gd_scene load_steps=15 format=3 uid="uid://ccw724kiqfixd"]
 
 [ext_resource type="Texture2D" uid="uid://l3ay6rcwpx3u" path="res://assets/kenney_scribble-dungeons/Tilesheet/tilesheet.png" id="1_e5pmj"]
 [ext_resource type="Script" path="res://scripts/enemy_base.gd" id="1_xtklh"]
+[ext_resource type="Shader" path="res://effects/shaders/flash.gdshader" id="2_i5v3h"]
+[ext_resource type="PackedScene" uid="uid://dep7o875uvsi6" path="res://effects/particles/dust.tscn" id="3_qm5hj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q1bsn"]
+resource_local_to_scene = true
+shader = ExtResource("2_i5v3h")
+shader_parameter/is_active = false
+
+[sub_resource type="Animation" id="Animation_mhm0y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7dqwk"]
+resource_name = "scale"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_abobm"]
+_data = {
+"RESET": SubResource("Animation_mhm0y"),
+"scale": SubResource("Animation_7dqwk")
+}
+
+[sub_resource type="Animation" id="Animation_tcpxq"]
+resource_name = "hit"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/is_active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_m3cli"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/is_active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_q1vnw"]
+_data = {
+"RESET": SubResource("Animation_m3cli"),
+"hit": SubResource("Animation_tcpxq")
+}
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_am106"]
 radius = 24.0
@@ -12,18 +93,32 @@ radius = 96.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_xmeep"]
 radius = 16.0
 
-[node name="enemy_base" type="CharacterBody2D" node_paths=PackedStringArray("_dash_wait_time", "_dash_timer", "_hitbox_area", "_invincibility_timer")]
+[node name="enemy_base" type="CharacterBody2D" node_paths=PackedStringArray("_hitbox_area", "_dash_wait_time", "_dash_timer", "_invincibility_timer", "_animation_hit")]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_xtklh")
+_hitbox_area = NodePath("hitbox_area")
 _dash_wait_time = NodePath("dash_wait_time")
 _dash_timer = NodePath("dash_timer")
-_hitbox_area = NodePath("hitbox_area")
 _invincibility_timer = NodePath("hitbox_area/invincibility_timer")
+_animation_hit = NodePath("sprite/animation_hit")
 
 [node name="sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_q1bsn")
 texture = ExtResource("1_e5pmj")
 region_enabled = true
+
+[node name="animation_player" type="AnimationPlayer" parent="sprite"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_abobm")
+}
+autoplay = "scale"
+
+[node name="animation_hit" type="AnimationPlayer" parent="sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_q1vnw")
+}
 
 [node name="collision" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_am106")
@@ -48,6 +143,9 @@ shape = SubResource("CircleShape2D_xmeep")
 [node name="invincibility_timer" type="Timer" parent="hitbox_area"]
 wait_time = 0.5
 one_shot = true
+
+[node name="dust" parent="." instance=ExtResource("3_qm5hj")]
+show_behind_parent = true
 
 [connection signal="body_entered" from="range_area" to="." method="_on_range_area_body_entered"]
 [connection signal="timeout" from="dash_wait_time" to="." method="_on_dash_wait_time_timeout"]

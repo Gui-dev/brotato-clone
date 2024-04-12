@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dep7o875uvsi6"]
+
+[ext_resource type="Texture2D" uid="uid://m3vyu6pauwem" path="res://assets/particles.png" id="1_81kgv"]
+
+[sub_resource type="Curve" id="Curve_ado4m"]
+_data = [Vector2(0.0168539, 0.098901), 0.0, 0.0, 0, 0, Vector2(0.988764, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="dust" type="CPUParticles2D"]
+amount = 16
+texture = ExtResource("1_81kgv")
+emission_shape = 1
+emission_sphere_radius = 16.0
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_ado4m")
