@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dw4pc2g8v7xk1"]
+[gd_scene load_steps=5 format=3 uid="uid://dw4pc2g8v7xk1"]
 
 [ext_resource type="PackedScene" uid="uid://c8r8va2mytnua" path="res://terrains/level_01.tscn" id="1_g0h2j"]
 [ext_resource type="PackedScene" uid="uid://tyutrvq7u0p1" path="res://player/player.tscn" id="2_cxfne"]
-[ext_resource type="PackedScene" uid="uid://bxwhedvng77wy" path="res://enemies/enemy_purple.tscn" id="3_fupru"]
-[ext_resource type="PackedScene" uid="uid://d03ic0juy46dk" path="res://enemies/enemy_yellow.tscn" id="4_fokyg"]
-[ext_resource type="PackedScene" uid="uid://dw84q3djwpdh2" path="res://enemies/enemy_green.tscn" id="5_oaj2f"]
+[ext_resource type="Script" path="res://scripts/wave_manager.gd" id="3_o5pee"]
+[ext_resource type="PackedScene" uid="uid://dh1ru875p6wi1" path="res://management/wave_spot.tscn" id="6_1sm2d"]
 
 [node name="game_level" type="Node2D"]
 
@@ -13,13 +12,34 @@
 [node name="player" parent="." instance=ExtResource("2_cxfne")]
 position = Vector2(946, 543)
 
-[node name="enemies" type="Node2D" parent="."]
+[node name="wave_manager" type="Node2D" parent="." node_paths=PackedStringArray("_wave_timer", "_wave_spawn_cooldown")]
+script = ExtResource("3_o5pee")
+_wave_timer = NodePath("wave_timer")
+_wave_spawn_cooldown = NodePath("wave_spawn_cooldown")
 
-[node name="enemy_purple" parent="enemies" instance=ExtResource("3_fupru")]
-position = Vector2(687, 432)
+[node name="wave_spot" parent="wave_manager" instance=ExtResource("6_1sm2d")]
+position = Vector2(174, 166)
 
-[node name="enemy_yellow" parent="enemies" instance=ExtResource("4_fokyg")]
-position = Vector2(711, 703)
+[node name="wave_spot_2" parent="wave_manager" instance=ExtResource("6_1sm2d")]
+position = Vector2(270, 901)
 
-[node name="enemy_green" parent="enemies" instance=ExtResource("5_oaj2f")]
-position = Vector2(1229, 762)
+[node name="wave_spot_3" parent="wave_manager" instance=ExtResource("6_1sm2d")]
+position = Vector2(945, 173)
+
+[node name="wave_spot_4" parent="wave_manager" instance=ExtResource("6_1sm2d")]
+position = Vector2(1720, 919)
+
+[node name="wave_spot_5" parent="wave_manager" instance=ExtResource("6_1sm2d")]
+position = Vector2(1739, 185)
+
+[node name="wave_spot_6" parent="wave_manager" instance=ExtResource("6_1sm2d")]
+position = Vector2(1307, 454)
+
+[node name="wave_timer" type="Timer" parent="wave_manager"]
+one_shot = true
+
+[node name="wave_spawn_cooldown" type="Timer" parent="wave_manager"]
+one_shot = true
+
+[connection signal="timeout" from="wave_manager/wave_timer" to="wave_manager" method="_on_wave_timer_timeout"]
+[connection signal="timeout" from="wave_manager/wave_spawn_cooldown" to="wave_manager" method="_on_wave_spawn_cooldown_timeout"]

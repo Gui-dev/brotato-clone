@@ -43,3 +43,7 @@ func update_health(type: String, value: int) -> void:
       _health += value
       if _health > _max_health:
         _health = _max_health
+
+
+func _on_wave_timer_timeout():
+  pass # Replace with function body.
