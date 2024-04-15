@@ -45,7 +45,7 @@ func update_health(type: String, value: int) -> void:
         _health = _max_health
 
 
-func rest_health() -> void:
+func reset_health() -> void:
   _health = _max_health
 
 
