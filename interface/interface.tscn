@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://bycwk873nt6e8"]
+
+[ext_resource type="FontFile" uid="uid://d3g3cyiauvy01" path="res://assets/fonts/TrueType (.ttf)/Kaph-Regular.ttf" id="1_30e7v"]
+[ext_resource type="Script" path="res://scripts/interface.gd" id="1_pphym"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3yudx"]
+font = ExtResource("1_30e7v")
+outline_size = 3
+outline_color = Color(0, 0, 0, 0)
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_offset = Vector2(2, 2)
+
+[node name="interface" type="CanvasLayer" node_paths=PackedStringArray("_wave_and_time")]
+script = ExtResource("1_pphym")
+_wave_and_time = NodePath("wave_and_time")
+
+[node name="wave_and_time" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -58.0
+offset_top = 24.0
+offset_right = 58.0
+offset_bottom = 65.0
+grow_horizontal = 2
+text = "Wave 7
+Time 00:30"
+label_settings = SubResource("LabelSettings_3yudx")
+horizontal_alignment = 1
+vertical_alignment = 1

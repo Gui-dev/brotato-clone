@@ -3,6 +3,7 @@ class_name EnemyBase
 
 
 const _EXPLOSION: PackedScene = preload("res://effects/particles/explosion.tscn")
+const  _TEXT_POPUP: PackedScene = preload("res://interface/text_popup.tscn")
 var _loading_dash: bool = false
 var _is_dashing: bool = false
 var _previous_character_position: Vector2
@@ -68,7 +69,15 @@ func update_health(damage: int) -> void:
     return
   
   get_tree().call_group("camera_player", "shake", 5.0, 0.25)
+  _spawn_text_popup(damage)
   _animation_hit.play("hit")
+
+
+func _spawn_text_popup(damage: int) -> void:
+  var popup: TextPopup = _TEXT_POPUP.instantiate()
+  popup.update_text(damage)
+  popup.global_position = global_position
+  get_tree().root.call_deferred("add_child", popup)
   
 
 func _spawn_explosion_particles() -> void:

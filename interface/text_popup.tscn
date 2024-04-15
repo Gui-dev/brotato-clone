@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=3 uid="uid://c05yrs2ar7t0n"]
+
+[ext_resource type="FontFile" uid="uid://d3g3cyiauvy01" path="res://assets/fonts/TrueType (.ttf)/Kaph-Regular.ttf" id="1_2c08b"]
+[ext_resource type="Script" path="res://scripts/text_popup.gd" id="2_n7bq1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vk3vl"]
+font = ExtResource("1_2c08b")
+font_size = 24
+font_color = Color(1, 0, 0, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 0)
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="Animation" id="Animation_c7n1u"]
+resource_name = "popup"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.2, 0.7, 0.85, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1.4, 1.4), Vector2(1, 1), Vector2(1, 1), Vector2(1.4, 1.4), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_vkfms"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kq56n"]
+_data = {
+"RESET": SubResource("Animation_vkfms"),
+"popup": SubResource("Animation_c7n1u")
+}
+
+[node name="text_popup" type="Label"]
+z_index = 5
+custom_minimum_size = Vector2(60, 32)
+offset_right = 60.0
+offset_bottom = 32.0
+scale = Vector2(1e-05, 1e-05)
+pivot_offset = Vector2(30, 16)
+text = "-12"
+label_settings = SubResource("LabelSettings_vk3vl")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_n7bq1")
+
+[node name="animation_player" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_kq56n")
+}
+autoplay = "popup"
+
+[connection signal="animation_finished" from="animation_player" to="." method="_on_animation_player_animation_finished"]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dw4pc2g8v7xk1"]
+[gd_scene load_steps=6 format=3 uid="uid://dw4pc2g8v7xk1"]
 
 [ext_resource type="PackedScene" uid="uid://c8r8va2mytnua" path="res://terrains/level_01.tscn" id="1_g0h2j"]
 [ext_resource type="PackedScene" uid="uid://tyutrvq7u0p1" path="res://player/player.tscn" id="2_cxfne"]
 [ext_resource type="Script" path="res://scripts/wave_manager.gd" id="3_o5pee"]
+[ext_resource type="PackedScene" uid="uid://bycwk873nt6e8" path="res://interface/interface.tscn" id="5_hm3bh"]
 [ext_resource type="PackedScene" uid="uid://dh1ru875p6wi1" path="res://management/wave_spot.tscn" id="6_1sm2d"]
 
 [node name="game_level" type="Node2D"]
@@ -10,12 +11,14 @@
 [node name="level_01" parent="." instance=ExtResource("1_g0h2j")]
 
 [node name="player" parent="." instance=ExtResource("2_cxfne")]
-position = Vector2(946, 543)
+position = Vector2(888, 666)
 
-[node name="wave_manager" type="Node2D" parent="." node_paths=PackedStringArray("_wave_timer", "_wave_spawn_cooldown")]
+[node name="wave_manager" type="Node2D" parent="." node_paths=PackedStringArray("_player", "_wave_timer", "_wave_spawn_cooldown", "_interface")]
 script = ExtResource("3_o5pee")
+_player = NodePath("../player")
 _wave_timer = NodePath("wave_timer")
 _wave_spawn_cooldown = NodePath("wave_spawn_cooldown")
+_interface = NodePath("../interface")
 
 [node name="wave_spot" parent="wave_manager" instance=ExtResource("6_1sm2d")]
 position = Vector2(174, 166)
@@ -41,5 +44,11 @@ one_shot = true
 [node name="wave_spawn_cooldown" type="Timer" parent="wave_manager"]
 one_shot = true
 
+[node name="current_time_timer" type="Timer" parent="wave_manager"]
+autostart = true
+
+[node name="interface" parent="." instance=ExtResource("5_hm3bh")]
+
 [connection signal="timeout" from="wave_manager/wave_timer" to="wave_manager" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="wave_manager/wave_spawn_cooldown" to="wave_manager" method="_on_wave_spawn_cooldown_timeout"]
+[connection signal="timeout" from="wave_manager/current_time_timer" to="wave_manager" method="_on_current_time_timer_timeout"]

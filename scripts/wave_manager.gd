@@ -5,10 +5,13 @@ class_name WaveManager
 const _GREEN_ENEMY: PackedScene = preload("res://enemies/enemy_green.tscn")
 const _YELLOW_ENEMY: PackedScene = preload("res://enemies/enemy_yellow.tscn")
 const _PURPLE_ENEMY: PackedScene = preload("res://enemies/enemy_purple.tscn")
+@export_category("variables")
+@export var _initial_position: Vector2 = Vector2(888, 666)
 @export_category("objects")
+@export var _player: Player = null 
 @export var _wave_timer: Timer
 @export var _wave_spawn_cooldown: Timer
-
+@export var _interface: CanvasLayer = null
 var _wave_dict: Dictionary = {
   1: {
     "wave_time": 20,
@@ -25,13 +28,13 @@ var _wave_dict: Dictionary = {
     "wave_difficulty": "easy",
   }
 }
-
 var _current_wave: int = 1
 
 
 func _ready() -> void:
   _wave_spawn_cooldown.start(_wave_dict[_current_wave]["wave_spawn_cooldown"])
   _wave_timer.start(_wave_dict[_current_wave]["wave_time"])
+  _interface.update_wave_and_time_label(_current_wave, _wave_timer.time_left - 1)
   _spawn_enemies()
 
   
@@ -104,15 +107,35 @@ func _spawn_enemy(spawner: Node2D) -> void:
   enemy.global_position = spawner.global_position
   get_parent().call_deferred("add_child", enemy)
 
+
+func start_new_wave() -> void:
+  _wave_timer.start(_wave_dict[_current_wave]["wave_time"])
+  _player.global_position = _initial_position
+  _player.reset_health()
+
+
+func _clear_map() -> void:
+  for children in get_parent().get_children():
+    if children is EnemyBase:
+      children.queue_free()
+  start_new_wave()
+
      
 func _on_wave_timer_timeout() -> void:
   _current_wave += 1
+  
   if _current_wave > 10:
     print("You win")
     return
-  _wave_timer.start(_wave_dict[_current_wave]["wave_time"])
+    
+  get_tree().paused = true
+  _clear_map()
 
 
 func _on_wave_spawn_cooldown_timeout():
     _spawn_enemies()
     _wave_spawn_cooldown.start(_wave_dict[_current_wave]["wave_spawn_cooldown"])
+
+
+func _on_current_time_timer_timeout() -> void:
+  _interface.update_wave_and_time_label(_current_wave, _wave_timer.time_left)
