@@ -18,9 +18,10 @@ func shake(strength: float, length: float) -> void:
       randf_range(-_current_strength, + _current_strength),
       randf_range(-_current_strength, + _current_strength)
     )
-    _current_strength -= get_process_delta_time()
-    await get_tree().physics_frame
     
+  _current_strength -= get_process_delta_time()
+  await get_tree().physics_frame
+  
   offset = Vector2.ZERO
   _current_strength = 0
   _current_length = 0

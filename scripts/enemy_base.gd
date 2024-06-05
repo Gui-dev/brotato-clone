@@ -30,7 +30,7 @@ func _physics_process(_delta: float) -> void:
   if not GlobalBase.player:
     print("Personagem não encontrado")
     return
-    
+  
   var _direction: Vector2 = global_position.direction_to(GlobalBase.player.global_position)
   var _distance: float = global_position.distance_to(GlobalBase.player.global_position)
   
@@ -43,6 +43,7 @@ func _physics_process(_delta: float) -> void:
       _chase(_direction)
     "chase_and_dash":
       _chase_and_dash(_direction)
+      
   move_and_slide()
 
 
@@ -93,7 +94,7 @@ func _on_range_area_body_entered(body: Player) -> void:
   
   if _is_dashing:
     return
-    
+  
   if body is Player:
     _previous_character_position = GlobalBase.player.global_position
     _dash_wait_time.start()

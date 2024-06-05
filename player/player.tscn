@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://tyutrvq7u0p1"]
+[gd_scene load_steps=20 format=3 uid="uid://tyutrvq7u0p1"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_5yvxm"]
 [ext_resource type="Texture2D" uid="uid://l3ay6rcwpx3u" path="res://assets/kenney_scribble-dungeons/Tilesheet/tilesheet.png" id="1_g1eka"]
 [ext_resource type="Script" path="res://scripts/camera_player.gd" id="3_7e75q"]
 [ext_resource type="PackedScene" uid="uid://deve0rc8p1wav" path="res://weapons/swords/short_sword.tscn" id="3_axk8i"]
 [ext_resource type="PackedScene" uid="uid://dep7o875uvsi6" path="res://effects/particles/dust.tscn" id="4_v2k5d"]
+[ext_resource type="PackedScene" uid="uid://8owuklww0c0g" path="res://weapons/hammers/hammer.tscn" id="5_gn2e7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q7y3g"]
 radius = 21.587
@@ -108,6 +109,67 @@ _data = {
 "position": SubResource("Animation_8fplx")
 }
 
+[sub_resource type="Animation" id="Animation_fej8r"]
+resource_name = "position"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-64, -64), Vector2(-80, -80)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2)]
+}
+
+[sub_resource type="Animation" id="Animation_selcg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-64, -64)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8km5e"]
+_data = {
+"RESET": SubResource("Animation_selcg"),
+"position": SubResource("Animation_fej8r")
+}
+
 [sub_resource type="Animation" id="Animation_ec6ag"]
 length = 0.001
 tracks/0/type = "value"
@@ -174,6 +236,7 @@ _data = {
 collision_mask = 2
 script = ExtResource("1_5yvxm")
 _move_speed = 312.0
+_health = null
 _dust = NodePath("dust")
 
 [node name="collision" type="CollisionShape2D" parent="."]
@@ -213,6 +276,14 @@ autoplay = "position"
 
 [node name="weapon_2" type="Marker2D" parent="weapons_manager"]
 position = Vector2(-64, -64)
+
+[node name="hammer" parent="weapons_manager/weapon_2" instance=ExtResource("5_gn2e7")]
+
+[node name="animation_player" type="AnimationPlayer" parent="weapons_manager/weapon_2"]
+libraries = {
+"": SubResource("AnimationLibrary_8km5e")
+}
+autoplay = "position"
 
 [node name="weapon_3" type="Marker2D" parent="weapons_manager"]
 position = Vector2(64, -64)

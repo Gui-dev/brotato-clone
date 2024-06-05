@@ -8,8 +8,8 @@ class_name Interface
 
 func update_wave_and_time_label(wave: int, time_remaining: int) -> void:
   _wave_and_time.text = (
-    "Wave " + str(wave) + "\n" +
-    "Time - " + _time_in_seconds(time_remaining)
+  "Wave " + str(wave) + "\n" +
+  "Time - " + _time_in_seconds(time_remaining)
   )
 
 

@@ -28,7 +28,7 @@ func _move() -> void:
   if _direction:
     _dust.emitting = true
     return
-    
+  
   _dust.emitting = false
 
 

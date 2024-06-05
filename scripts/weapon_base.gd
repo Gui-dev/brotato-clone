@@ -3,7 +3,7 @@ class_name WeaponBase
 
 
 var _is_attcking: bool = false
-@export_category("Variables")
+@export_category("Properties")
 @export var _attack_damage: int
 @export var _attack_cooldown: float
 
