@@ -23,21 +23,6 @@ _interface = NodePath("../interface")
 [node name="wave_spot" parent="wave_manager" instance=ExtResource("6_1sm2d")]
 position = Vector2(174, 166)
 
-[node name="wave_spot_2" parent="wave_manager" instance=ExtResource("6_1sm2d")]
-position = Vector2(270, 901)
-
-[node name="wave_spot_3" parent="wave_manager" instance=ExtResource("6_1sm2d")]
-position = Vector2(945, 173)
-
-[node name="wave_spot_4" parent="wave_manager" instance=ExtResource("6_1sm2d")]
-position = Vector2(1720, 919)
-
-[node name="wave_spot_5" parent="wave_manager" instance=ExtResource("6_1sm2d")]
-position = Vector2(1739, 185)
-
-[node name="wave_spot_6" parent="wave_manager" instance=ExtResource("6_1sm2d")]
-position = Vector2(1307, 454)
-
 [node name="wave_timer" type="Timer" parent="wave_manager"]
 one_shot = true
 

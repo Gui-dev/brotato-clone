@@ -2,7 +2,10 @@ extends Node2D
 class_name WeaponBase
 
 
+const ARROW: PackedScene = preload("res://weapons/bows/arrow.tscn")
+
 var _is_attcking: bool = false
+var _enemy_ref: EnemyBase
 @export_category("Properties")
 @export var _attack_damage: int
 @export var _attack_cooldown: float
@@ -17,6 +20,7 @@ func _on_detection_area_body_entered(body: EnemyBase) -> void:
   if _is_attcking: return
   
   if body is EnemyBase:
+    _enemy_ref = body
     _detection_area.set_deferred("monitoring", false)
     _animation_player.play("attack")
     _attack_timer.start(_attack_cooldown)
@@ -31,3 +35,13 @@ func _on_attack_timer_timeout() -> void:
 func _on_attack_area_body_entered(body: EnemyBase) -> void:
   if body is EnemyBase:
     body.update_health(_attack_damage)
+
+
+func _spawn_projectile() -> void:
+  if is_instance_valid(_enemy_ref):
+    var direction: Vector2 = global_position.direction_to(_enemy_ref.global_position)
+    var projectile: Projectile = ARROW.instantiate()
+    projectile.global_position = global_position
+    projectile._attack_damage = _attack_damage
+    get_tree().root.call_deferred("add_child", projectile)
+    projectile.direction = direction
